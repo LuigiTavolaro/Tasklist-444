@@ -1,0 +1,73 @@
+<html>
+<head>
+<title>Exemplo</title>
+<style type="text/css">
+.cinza {
+color:#CCC;
+}
+.remover {
+cursor:pointer;
+}
+</style>
+<script type="text/javascript"
+src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$("#lista").load('ler.php');
+
+	$("#dados").focus(function(){
+		$(this).removeClass('cinza').val('');
+	});
+	
+	$("#dados").blur(function(){
+		if($(this).val() == '') {
+			$(this).addClass('cinza').val('Clique aqui para preencher');
+		}
+	});
+	
+	//TESTE
+	$(".remover").live("click", function(){
+		var ide = $(this).attr('id');
+		$.ajax({
+				type: "POST",
+				url: 'remover.php',
+				data: 'id=' + ide,
+				complete: function(remover){
+					alert('d' + id);
+					$("#lista").load('ler.php');
+				}
+
+		});	
+	});
+	
+	//TESTE_FIM
+
+	$("#botao").click(function(){
+		var dados = $("#dados").val();
+		$.ajax({
+				type: "POST",
+				url: 'inserir.php',
+				data: 'dados=' + dados,
+				complete: function(data){
+					$("#dados").val('');
+					$("#lista").load('ler.php');
+				}
+
+		});
+	});
+});
+
+</script>
+</head>
+<body>
+
+<ul id="lista">
+
+</ul>
+
+<input type="text" id="dados" value="Clique aqui para preencher" class="cinza" />
+<input type="button" value="OK!" id="botao">
+
+</body>
+</html>
+	
